@@ -17,8 +17,10 @@ class GildedRoseTest {
         Item item1 = new Item(RANDOM_ITEM, 15, 45);
         Item item2 = new Item(SECOND_RANDOM_ITEM, 1, 33);
         Item[] items = new Item[] { item1, item2 };
+
         GildedRose app = new GildedRose(items);
         app.updateQuality();
+
         assertEquals(14, app.items[0].sellIn, "SellIn did not decrease as expected for normal items");
         assertEquals(44, app.items[0].quality, "Quality did not decrease as expected for normal items");
         assertEquals(0, app.items[1].sellIn, "SellIn did not decrease as expected for normal items");
@@ -30,8 +32,10 @@ class GildedRoseTest {
         Item item1 = new Item(RANDOM_ITEM, 0, 10);
         Item item2 = new Item(SECOND_RANDOM_ITEM, 2, 13);
         Item[] items = new Item[] { item1, item2 };
+
         GildedRose app = new GildedRose(items);
         app.updateQuality();
+
         assertEquals(-1, app.items[0].sellIn, "SellIn did not decrease correctly after sell-in date passed");
         assertEquals(8, app.items[0].quality, "Quality did not decrease correctly after sell-in date");
         assertEquals(1, app.items[1].sellIn, "SellIn did not decrease as expected");
@@ -43,8 +47,10 @@ class GildedRoseTest {
         Item item1 = new Item(RANDOM_ITEM, 2, 0);
         Item item2 = new Item(SECOND_RANDOM_ITEM, 0, 0);
         Item[] items = new Item[] { item1, item2 };
+
         GildedRose app = new GildedRose(items);
         app.updateQuality();
+
         assertEquals(1, app.items[0].sellIn, "SellIn did not decrease as expected");
         assertEquals(0, app.items[0].quality, "Quality should not be negative");
         assertEquals(-1, app.items[1].sellIn, "SellIn did not decrease as expected");
@@ -56,8 +62,10 @@ class GildedRoseTest {
         Item item1 = new Item(RANDOM_ITEM, 10, 38);
         Item item2 = new Item(AGED_BRIE, 10, 38);
         Item[] items = new Item[] { item1, item2 };
+
         GildedRose app = new GildedRose(items);
         app.updateQuality();
+
         assertEquals(9, app.items[0].sellIn, "SellIn did not decrease as expected");
         assertEquals(37, app.items[0].quality, "Quality did not decrease as expected");
         assertEquals(9, app.items[1].sellIn, "SellIn did not decrease as expected");
@@ -65,12 +73,32 @@ class GildedRoseTest {
     }
 
     @Test
+    void testUpdateQualityAgedBrieEdgeCases() {
+        Item item1 = new Item(AGED_BRIE, 2, 50);
+        Item item2 = new Item(AGED_BRIE, 10, 38);
+        Item item3 = new Item(AGED_BRIE, 0, 47);
+        Item[] items = new Item[] { item1, item2, item3 };
+
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+
+        assertEquals(1, app.items[0].sellIn, "SellIn did not decrease as expected");
+        assertEquals(50, app.items[0].quality, "Quality of Aged Brie should not exceed 50");
+        assertEquals(9, app.items[1].sellIn, "SellIn did not decrease as expected");
+        assertEquals(39, app.items[1].quality, "Quality of Aged Brie did not increase as expected");
+        assertEquals(-1, app.items[2].sellIn, "SellIn did not decrease as expected");
+        assertEquals(49, app.items[2].quality, "Quality of Aged Brie did not increase as expected");
+    }
+
+    @Test
     void testUpdateQualityThatQualityOfItemNeverExceedsLimit() {
         Item item1 = new Item(AGED_BRIE, 4, 45);
         Item item2 = new Item(AGED_BRIE, 2, 50);
         Item[] items = new Item[] { item1, item2 };
+
         GildedRose app = new GildedRose(items);
         app.updateQuality();
+
         assertEquals(3, app.items[0].sellIn, "SellIn did not decrease as expected");
         assertEquals(46, app.items[0].quality, "Quality did not increase correctly");
         assertEquals(1, app.items[1].sellIn, "SellIn did not decrease as expected");
@@ -82,8 +110,10 @@ class GildedRoseTest {
         Item item1 = new Item(RANDOM_ITEM, 4, 25);
         Item item2 = new Item(SULFURAS, 2, 45);
         Item[] items = new Item[] { item1, item2 };
+
         GildedRose app = new GildedRose(items);
         app.updateQuality();
+
         assertEquals(3, app.items[0].sellIn, "SellIn did not decrease as expected");
         assertEquals(24, app.items[0].quality, "Quality did not decrease as expected");
         assertEquals(2, app.items[1].sellIn, "SellIn for Sulfuras should not change");
@@ -95,8 +125,10 @@ class GildedRoseTest {
         Item item1 = new Item(RANDOM_ITEM, 10, 38);
         Item item2 = new Item(BACKSTAGE_PASSES, 11, 38);
         Item[] items = new Item[] { item1, item2 };
+
         GildedRose app = new GildedRose(items);
         app.updateQuality();
+
         assertEquals(9, app.items[0].sellIn, "SellIn did not decrease as expected");
         assertEquals(37, app.items[0].quality, "Quality did not decrease as expected");
         assertEquals(10, app.items[1].sellIn, "SellIn did not decrease as expected for Backstage Passes");
@@ -109,9 +141,12 @@ class GildedRoseTest {
         Item item2 = new Item(BACKSTAGE_PASSES, 10, 38);
         Item item3 = new Item(BACKSTAGE_PASSES, 5, 38);
         Item item4 = new Item(BACKSTAGE_PASSES, 0, 38);
-        Item[] items = new Item[] { item1, item2, item3, item4 };
+        Item item5 = new Item(BACKSTAGE_PASSES, 5, 50);
+        Item[] items = new Item[] { item1, item2, item3, item4, item5 };
+
         GildedRose app = new GildedRose(items);
         app.updateQuality();
+
         assertEquals(10, app.items[0].sellIn, "SellIn did not decrease as expected for Backstage Passes");
         assertEquals(39, app.items[0].quality, "Quality did not increase as expected for Backstage Passes");
         assertEquals(9, app.items[1].sellIn, "SellIn did not decrease as expected for Backstage Passes");
@@ -120,6 +155,32 @@ class GildedRoseTest {
         assertEquals(41, app.items[2].quality, "Quality did not increase by 3 when sellIn is 5 or less");
         assertEquals(-1, app.items[3].sellIn, "SellIn did not decrease as expected for Backstage Passes");
         assertEquals(0, app.items[3].quality, "Quality should be zero when sellIn is 0 or less for Backstage Passes");
+        assertEquals(4, app.items[4].sellIn, "SellIn did not decrease as expected for Backstage Passes");
+        assertEquals(50, app.items[4].quality, "Quality should not exceed 50 for for Backstage Passes");
+    }
+
+    @Test
+    void testUpdateQualityComprehensiveWithMixedItems() {
+        Item item1 = new Item(RANDOM_ITEM, 15, 20);
+        Item item2 = new Item(RANDOM_ITEM, 0, 6);
+        Item item3 = new Item(AGED_BRIE, 10, 48);
+        Item item4 = new Item(SULFURAS, 0, 40);
+        Item item5 = new Item(BACKSTAGE_PASSES, 5, 45);
+        Item[] items = new Item[] { item1, item2, item3, item4, item5};
+
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+
+        assertEquals(14, item1.sellIn, "SellIn did not decrease correctly for normal item");
+        assertEquals(19, item1.quality, "Quality did not decrease correctly for normal item");
+        assertEquals(-1, item2.sellIn, "SellIn did not decrease correctly for item past sell-in date");
+        assertEquals(4, item2.quality, "Quality did not degrade twice as fast after sell-in date");
+        assertEquals(9, item3.sellIn, "SellIn did not decrease correctly for Aged Brie");
+        assertEquals(49, item3.quality, "Quality did not increase correctly for Aged Brie");
+        assertEquals(0, item4.sellIn, "SellIn should not change for Sulfuras");
+        assertEquals(40, item4.quality, "Quality should not change for Sulfuras");
+        assertEquals(4, item5.sellIn, "SellIn did not decrease correctly for Backstage Passes");
+        assertEquals(48, item5.quality, "Quality did not increase correctly for Backstage Passes");
     }
 
 
