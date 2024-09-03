@@ -108,7 +108,7 @@ class GildedRoseTest {
     @Test
     void testUpdateQualitySulfurasItemLogic() {
         Item item1 = new Item(RANDOM_ITEM, 4, 25);
-        Item item2 = new Item(SULFURAS, 2, 45);
+        Item item2 = new Item(SULFURAS, 2, 80);
         Item[] items = new Item[] { item1, item2 };
 
         GildedRose app = new GildedRose(items);
@@ -117,7 +117,7 @@ class GildedRoseTest {
         assertEquals(3, app.items[0].sellIn, "SellIn did not decrease as expected");
         assertEquals(24, app.items[0].quality, "Quality did not decrease as expected");
         assertEquals(2, app.items[1].sellIn, "SellIn for Sulfuras should not change");
-        assertEquals(45, app.items[1].quality, "Quality for Sulfuras should not change");
+        assertEquals(80, app.items[1].quality, "Quality for Sulfuras should not change");
     }
 
     @Test
@@ -164,7 +164,7 @@ class GildedRoseTest {
         Item item1 = new Item(RANDOM_ITEM, 15, 20);
         Item item2 = new Item(RANDOM_ITEM, 0, 6);
         Item item3 = new Item(AGED_BRIE, 10, 48);
-        Item item4 = new Item(SULFURAS, 0, 40);
+        Item item4 = new Item(SULFURAS, 0, 80);
         Item item5 = new Item(BACKSTAGE_PASSES, 5, 45);
         Item[] items = new Item[] { item1, item2, item3, item4, item5};
 
@@ -178,7 +178,7 @@ class GildedRoseTest {
         assertEquals(9, item3.sellIn, "SellIn did not decrease correctly for Aged Brie");
         assertEquals(49, item3.quality, "Quality did not increase correctly for Aged Brie");
         assertEquals(0, item4.sellIn, "SellIn should not change for Sulfuras");
-        assertEquals(40, item4.quality, "Quality should not change for Sulfuras");
+        assertEquals(80, item4.quality, "Quality should not change for Sulfuras");
         assertEquals(4, item5.sellIn, "SellIn did not decrease correctly for Backstage Passes");
         assertEquals(48, item5.quality, "Quality did not increase correctly for Backstage Passes");
     }
