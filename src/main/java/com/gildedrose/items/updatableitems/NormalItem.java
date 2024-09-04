@@ -1,4 +1,4 @@
-package com.gildedrose.items;
+package com.gildedrose.items.updatableitems;
 
 public class NormalItem extends UpdatableItem {
 

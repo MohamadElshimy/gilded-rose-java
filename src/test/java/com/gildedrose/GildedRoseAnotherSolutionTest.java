@@ -1,6 +1,10 @@
 package com.gildedrose;
 
-import com.gildedrose.items.*;
+import com.gildedrose.items.immutableitems.Sulfuras;
+import com.gildedrose.items.updatableitems.AgedBrie;
+import com.gildedrose.items.updatableitems.BackstagePasses;
+import com.gildedrose.items.updatableitems.Conjured;
+import com.gildedrose.items.updatableitems.NormalItem;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
