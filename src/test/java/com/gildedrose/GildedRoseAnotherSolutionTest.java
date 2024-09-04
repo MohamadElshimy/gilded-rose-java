@@ -1,9 +1,6 @@
 package com.gildedrose;
 
-import com.gildedrose.items.AgedBrie;
-import com.gildedrose.items.BackstagePasses;
-import com.gildedrose.items.NormalItem;
-import com.gildedrose.items.Sulfuras;
+import com.gildedrose.items.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,6 +12,7 @@ class GildedRoseAnotherSolutionTest {
     public static final String AGED_BRIE = "Aged Brie";
     public static final String SULFURAS = "Sulfuras, Hand of Ragnaros";
     public static final String BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert";
+    public static final String CONJURED = "Conjured";
 
     @Test
     void testUpdateQualityDecreasingBothQualityAndSellInForNormalItems() {
@@ -185,5 +183,50 @@ class GildedRoseAnotherSolutionTest {
         assertEquals(80, item4.quality, "Quality should not change for Sulfuras");
         assertEquals(4, item5.sellIn, "SellIn did not decrease correctly for Backstage Passes");
         assertEquals(48, item5.quality, "Quality did not increase correctly for Backstage Passes");
+    }
+
+    @Test
+    void testUpdateQualityDecreasingBothQualityAndSellInForConjuredItems() {
+        Item item1 = new Conjured(CONJURED, 15, 45);
+        Item item2 = new Conjured(CONJURED, 1, 33);
+        Item[] items = new Item[] { item1, item2 };
+
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+
+        assertEquals(14, app.items[0].sellIn, "SellIn did not decrease as expected for Conjured items");
+        assertEquals(43, app.items[0].quality, "Quality did not decrease as expected for Conjured items");
+        assertEquals(0, app.items[1].sellIn, "SellIn did not decrease as expected for Conjured items");
+        assertEquals(31, app.items[1].quality, "Quality did not decrease as expected for Conjured items");
+    }
+
+    @Test
+    void testUpdateQualityConjuredItemsDegradingTwiceAsFastForPassedSellInDates() {
+        Item item1 = new Conjured(CONJURED, 0, 10);
+        Item item2 = new Conjured(CONJURED, 2, 13);
+        Item[] items = new Item[] { item1, item2 };
+
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+
+        assertEquals(-1, app.items[0].sellIn, "Conjured item SellIn did not decrease correctly after sell-in date passed");
+        assertEquals(6, app.items[0].quality, "Conjured item Quality did not decrease correctly after sell-in date passed");
+        assertEquals(1, app.items[1].sellIn, "SellIn did not decrease as expected for Conjured item");
+        assertEquals(11, app.items[1].quality, "Quality did not decrease as expected forConjured item");
+    }
+
+    @Test
+    void testUpdateQualityThatQualityIsNeverNegativeForConjuredItems() {
+        Item item1 = new Conjured(CONJURED, 2, 0);
+        Item item2 = new Conjured(CONJURED, 0, 0);
+        Item[] items = new Item[] { item1, item2 };
+
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+
+        assertEquals(1, app.items[0].sellIn, "SellIn did not decrease as expected");
+        assertEquals(0, app.items[0].quality, "Quality should not be negative");
+        assertEquals(-1, app.items[1].sellIn, "SellIn did not decrease as expected");
+        assertEquals(0, app.items[1].quality, "Quality should not be negative");
     }
 }
