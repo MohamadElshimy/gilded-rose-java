@@ -8,6 +8,12 @@ public class Conjured extends UpdatableItem {
 
     @Override
     public void update() {
+        decreaseSellIn();
 
+        if (sellIn >= 0) {
+            decreaseQuality(2);
+        } else {
+            decreaseQuality(4);
+        }
     }
 }
