@@ -191,7 +191,7 @@ class GildedRoseAnotherSolutionTest {
         Item item2 = new Conjured(CONJURED, 1, 33);
         Item[] items = new Item[] { item1, item2 };
 
-        GildedRose app = new GildedRose(items);
+        GildedRoseAnotherSolution app = new GildedRoseAnotherSolution(items);
         app.updateQuality();
 
         assertEquals(14, app.items[0].sellIn, "SellIn did not decrease as expected for Conjured items");
@@ -206,7 +206,7 @@ class GildedRoseAnotherSolutionTest {
         Item item2 = new Conjured(CONJURED, 2, 13);
         Item[] items = new Item[] { item1, item2 };
 
-        GildedRose app = new GildedRose(items);
+        GildedRoseAnotherSolution app = new GildedRoseAnotherSolution(items);
         app.updateQuality();
 
         assertEquals(-1, app.items[0].sellIn, "Conjured item SellIn did not decrease correctly after sell-in date passed");
@@ -221,7 +221,7 @@ class GildedRoseAnotherSolutionTest {
         Item item2 = new Conjured(CONJURED, 0, 0);
         Item[] items = new Item[] { item1, item2 };
 
-        GildedRose app = new GildedRose(items);
+        GildedRoseAnotherSolution app = new GildedRoseAnotherSolution(items);
         app.updateQuality();
 
         assertEquals(1, app.items[0].sellIn, "SellIn did not decrease as expected");
